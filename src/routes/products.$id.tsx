@@ -202,7 +202,6 @@ function ProductPage() {
               <ProductCard key={p.id} product={p} index={i} />
             ))}
           </div>
-          </div>
         </div>
       )}
       </main>
