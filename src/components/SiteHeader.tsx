@@ -20,18 +20,8 @@ export function SiteHeader() {
   const topOffer = state.offers[0];
 
   return (
-    <header className="fixed inset-x-0 top-0 z-40 flex flex-col">
-      {topOffer && (
-        <div className="w-full bg-foreground py-2 text-center text-xs font-bold text-background shadow-md sm:text-sm">
-          <Link to="/offers" className="flex items-center justify-center gap-2 hover:opacity-80 transition-opacity">
-            <span className="animate-pulse text-amber-300">✨</span>
-            <span>{topOffer.title}</span>
-            <span className="hidden opacity-75 sm:inline"> - {topOffer.subtitle}</span>
-          </Link>
-        </div>
-      )}
-      <div className="w-full px-4 pt-3 pb-2">
-        <nav className="glass mx-auto flex max-w-6xl items-center justify-between rounded-full px-4 py-3 sm:px-6">
+    <header className="fixed inset-x-0 top-0 z-40 px-4 pt-4">
+      <nav className="glass mx-auto flex max-w-6xl items-center justify-between rounded-full px-4 py-3 sm:px-6">
         <Link to="/" className="tap-pulse flex items-center gap-2.5">
           <img src={state.branding.mark} alt="شعار المتجر" className="size-8 object-contain" />
           <span className="font-display text-sm font-extrabold tracking-[0.22em] uppercase">
@@ -108,7 +98,6 @@ export function SiteHeader() {
           </Link>
         </div>
       </motion.div>
-      </div>
     </header>
   );
 }

@@ -5,6 +5,8 @@ import { useState } from "react";
 
 import { PageShell } from "@/components/PageShell";
 import { ProductCard } from "@/components/ProductCard";
+import { SiteHeader } from "@/components/SiteHeader";
+import { SiteFooter } from "@/components/SiteFooter";
 import { formatAED, useStore, whatsappLink } from "@/lib/store";
 
 export const Route = createFileRoute("/products/$id")({
@@ -62,68 +64,83 @@ function ProductPage() {
     .slice(0, 4);
 
   return (
-    <PageShell eyebrow={category?.name ?? "Dubai Abaya"} title={product.name}>
-      <div className="grid gap-8 md:grid-cols-2">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.94 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          className="glass overflow-hidden rounded-4xl p-3"
-        >
-          <img
-            src={product.image}
-            alt={product.name}
-            className="h-[24rem] w-full rounded-3xl object-cover sm:h-[32rem]"
-          />
-        </motion.div>
+    <div dir="rtl" className="relative min-h-screen overflow-x-hidden bg-background">
+      <SiteHeader />
+      
+      <main className="pb-24 pt-20 sm:pt-32">
+        {/* Edge-to-edge image on mobile, contained on desktop */}
+        <div className="mx-auto max-w-6xl sm:px-5">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            className="relative"
+          >
+            <img
+              src={product.image}
+              alt={product.name}
+              className="w-full h-[75vh] object-cover sm:h-[600px] sm:rounded-4xl"
+            />
+          </motion.div>
+        </div>
 
-        <div className="glass-strong flex flex-col rounded-4xl p-7">
-          <span className="glass w-fit rounded-full px-4 py-1.5 text-[0.7rem] tracking-widest text-accent-foreground">
+        <div className="mx-auto max-w-3xl px-5 pt-8 text-center sm:pt-12">
+          {/* Price */}
+          <div className="flex items-center justify-center gap-3 text-3xl font-extrabold sm:text-4xl">
+            <span className="text-destructive">{formatAED(product.price)}</span>
+            {product.oldPrice && (
+              <span className="text-xl text-muted-foreground line-through decoration-destructive/50">
+                {formatAED(product.oldPrice)}
+              </span>
+            )}
+          </div>
+
+          {/* Title */}
+          <h1 className="font-display mt-4 text-2xl font-bold sm:text-3xl text-foreground">
+            {product.name}
+          </h1>
+          <span className="mt-3 inline-block rounded-full bg-secondary px-3 py-1 text-xs font-bold tracking-widest text-secondary-foreground">
             {product.tag}
           </span>
-          <p className="font-display mt-5 text-3xl font-extrabold text-gradient">
-            {formatAED(product.price)}
-          </p>
-          {product.oldPrice && (
-            <p className="mt-1 text-sm text-muted-foreground line-through">
-              {formatAED(product.oldPrice)}
-            </p>
-          )}
-          <p className="mt-5 text-sm leading-relaxed text-muted-foreground">
+
+          <p className="mt-6 text-sm leading-relaxed text-muted-foreground sm:text-base">
             {product.description}
           </p>
 
-          <p className="mt-6 text-xs tracking-widest text-primary uppercase">القياس</p>
-          <div className="mt-3 flex flex-wrap gap-2">
-            {product.sizes.map((s) => (
-              <button
-                key={s}
-                onClick={() => setSize(s)}
-                className={`tap-pulse min-w-12 rounded-2xl px-4 py-2.5 text-sm font-bold ${
-                  chosen === s
-                    ? "bg-primary text-primary-foreground"
-                    : "bg-secondary text-secondary-foreground"
-                }`}
-              >
-                {s}
-              </button>
-            ))}
+          {/* Sizes */}
+          <div className="mt-8">
+            <p className="text-xs font-bold uppercase tracking-widest text-primary">اختر القياس</p>
+            <div className="mt-4 flex flex-wrap justify-center gap-3">
+              {product.sizes.map((s) => (
+                <button
+                  key={s}
+                  onClick={() => setSize(s)}
+                  className={`tap-pulse min-w-[3.5rem] rounded-2xl px-5 py-3 text-sm font-bold border transition-colors ${
+                    chosen === s
+                      ? "border-primary bg-primary text-primary-foreground"
+                      : "border-border bg-background text-foreground hover:border-primary/50"
+                  }`}
+                >
+                  {s}
+                </button>
+              ))}
+            </div>
+            <p className="mt-4 text-xs text-muted-foreground">
+              {product.stock > 0 ? `متوفر · ${product.stock} قطعة في المخزون` : "غير متوفر حالياً"}
+            </p>
           </div>
 
-          <p className="mt-5 text-xs text-muted-foreground">
-            {product.stock > 0 ? `متوفر · ${product.stock} قطعة في المخزون` : "غير متوفر حالياً"}
-          </p>
-
-          <div className="mt-7 flex flex-wrap gap-3">
+          {/* Actions */}
+          <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <button
               onClick={() => {
                 addToCart(product.id, chosen);
                 setIsCartOpen(true);
               }}
               disabled={product.stock === 0}
-              className="tap-pulse flex items-center gap-2 rounded-full bg-primary px-7 py-3.5 text-sm font-bold text-primary-foreground disabled:opacity-50"
+              className="tap-pulse flex w-full items-center justify-center gap-2 rounded-full bg-primary py-4 text-sm font-bold text-primary-foreground disabled:opacity-50 sm:w-64"
             >
-              <ShoppingBag className="size-4" /> إضافة للسلة
+              <ShoppingBag className="size-5" /> أضف إلى السلة
             </button>
             <a
               href={whatsappLink(
@@ -132,19 +149,18 @@ function ProductPage() {
               )}
               target="_blank"
               rel="noreferrer"
-              className="tap-pulse glass flex items-center gap-2 rounded-full px-7 py-3.5 text-sm font-bold text-accent-foreground"
+              className="tap-pulse flex w-full items-center justify-center gap-2 rounded-full border border-border bg-background py-4 text-sm font-bold text-foreground sm:w-64"
             >
-              <MessageCircle className="size-4" /> اطلبي عبر واتساب
+              <MessageCircle className="size-5" /> الطلب عبر واتساب
             </a>
           </div>
-
+          
           {cartCount > 0 && (
-            <button onClick={() => setIsCartOpen(true)} className="mt-5 text-xs text-primary underline text-right">
-              لديك {cartCount} قطعة في السلة
+            <button onClick={() => setIsCartOpen(true)} className="mt-5 text-xs text-primary underline">
+              لديك {cartCount} قطعة في السلة، عرض السلة
             </button>
           )}
         </div>
-      </div>
 
       {(product.reviews && product.reviews.length > 0) && (
         <div className="mt-16 rounded-4xl bg-secondary/50 p-8">
@@ -186,8 +202,11 @@ function ProductPage() {
               <ProductCard key={p.id} product={p} index={i} />
             ))}
           </div>
+          </div>
         </div>
       )}
-    </PageShell>
+      </main>
+      <SiteFooter />
+    </div>
   );
 }
