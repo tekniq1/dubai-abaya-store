@@ -20,8 +20,15 @@ export function SiteHeader() {
   const topOffer = state.offers[0];
 
   return (
-    <header className="fixed inset-x-0 top-0 z-40 px-4 pt-4">
-      <nav className="glass mx-auto flex max-w-6xl items-center justify-between rounded-full px-4 py-3 sm:px-6">
+    <header className="fixed inset-x-0 top-0 z-40">
+      {/* Announcement Bar */}
+      {topOffer && (
+        <div className="bg-foreground px-4 py-2 text-center text-xs font-bold text-background sm:text-sm">
+          {topOffer.title} - {topOffer.discount}
+        </div>
+      )}
+
+      <nav className="glass mx-auto mt-2 flex max-w-6xl items-center justify-between rounded-full px-4 py-3 sm:px-6">
         <Link to="/" className="tap-pulse flex items-center gap-2.5">
           <img src={state.branding.mark} alt="شعار المتجر" className="size-8 object-contain" />
           <span className="font-display text-sm font-extrabold tracking-[0.22em] uppercase">

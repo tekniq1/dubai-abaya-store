@@ -66,7 +66,7 @@ export function CartDrawer() {
                 <div className="flex flex-col gap-6">
                   {cartDetails.map(({ line, product, total }, i) => (
                     <motion.div
-                      key={`${line.productId}-${line.size}`}
+                      key={`${line.productId}-${line.size}-${line.color || 'none'}`}
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: i * 0.05 }}
@@ -82,20 +82,28 @@ export function CartDrawer() {
                           <div className="flex justify-between">
                             <h3 className="font-display text-sm font-bold">{product.name}</h3>
                             <button
-                              onClick={() => removeLine(line.productId, line.size)}
+                              onClick={() => removeLine(line.productId, line.size, line.color)}
                               className="text-destructive/70 hover:text-destructive"
                             >
                               <Trash2 className="size-4" />
                             </button>
                           </div>
-                          <p className="mt-1 text-xs text-muted-foreground">القياس {line.size}</p>
+                          <div className="mt-1 flex items-center gap-2 text-xs text-muted-foreground">
+                            <span>القياس {line.size}</span>
+                            {line.color && (
+                              <>
+                                <span>·</span>
+                                <span>{line.color}</span>
+                              </>
+                            )}
+                          </div>
                         </div>
                         <div className="flex items-center justify-between">
                           <p className="text-sm font-bold text-gradient">{formatAED(total)}</p>
                           <div className="flex items-center gap-2 rounded-full bg-secondary px-2 py-1">
                             <button
                               aria-label="إنقاص"
-                              onClick={() => setQty(line.productId, line.size, line.qty - 1)}
+                              onClick={() => setQty(line.productId, line.size, line.color, line.qty - 1)}
                               className="tap-pulse p-1"
                             >
                               <Minus className="size-3" />
@@ -103,7 +111,7 @@ export function CartDrawer() {
                             <span className="w-4 text-center text-xs font-bold">{line.qty}</span>
                             <button
                               aria-label="زيادة"
-                              onClick={() => setQty(line.productId, line.size, line.qty + 1)}
+                              onClick={() => setQty(line.productId, line.size, line.color, line.qty + 1)}
                               className="tap-pulse p-1"
                             >
                               <Plus className="size-3" />

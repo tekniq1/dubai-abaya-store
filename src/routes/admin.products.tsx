@@ -27,11 +27,14 @@ function AdminProducts() {
           tag: "جديد",
           price: 1000,
           image: abayaFallback,
+          images: [abayaFallback],
           categoryId: state.categories[0]?.id ?? "abayas",
           description: "وصف القطعة...",
           stock: 5,
           sizes: ["S", "M", "L"],
           styles: [],
+          fabric: "",
+          color: "",
         },
         ...state.products,
       ],
@@ -99,6 +102,16 @@ function AdminProducts() {
                   type="number"
                   value={p.stock}
                   onChange={(v) => setProduct(p.id, { stock: Number(v) || 0 })}
+                />
+                <Field
+                  label="اللون"
+                  value={p.color ?? ""}
+                  onChange={(v) => setProduct(p.id, { color: v })}
+                />
+                <Field
+                  label="نوع القماش"
+                  value={p.fabric ?? ""}
+                  onChange={(v) => setProduct(p.id, { fabric: v })}
                 />
                 <label className="block">
                   <span className="text-xs text-muted-foreground">الفئة</span>
@@ -201,19 +214,50 @@ function AdminProducts() {
                   </div>
                 </div>
 
-                <div className="sm:col-span-2 pt-2">
-                  <label className="tap-pulse flex w-fit cursor-pointer items-center gap-2 rounded-full bg-secondary px-5 py-2.5 text-xs font-bold text-secondary-foreground">
-                    <Upload className="size-3.5" /> تغيير الصورة
-                    <input
-                      type="file"
-                      accept="image/*"
-                      className="hidden"
-                      onChange={(e) => {
-                        const f = e.target.files?.[0];
-                        if (f) readImageFile(f, (url) => setProduct(p.id, { image: url }));
-                      }}
-                    />
-                  </label>
+                <div className="sm:col-span-2 pt-2 border-t border-border mt-4">
+                  <p className="text-sm font-bold mb-3">معرض الصور</p>
+                  
+                  <div className="flex flex-wrap gap-4 mb-4">
+                    {p.images?.map((img, idx) => (
+                      <div key={idx} className="relative size-20 rounded-xl border border-border overflow-hidden">
+                        <img src={img} className="w-full h-full object-cover" />
+                        <button
+                          onClick={() => setProduct(p.id, { images: p.images!.filter((_, i) => i !== idx) })}
+                          className="absolute top-1 left-1 grid size-5 place-items-center rounded-full bg-background/80 text-destructive hover:bg-background"
+                        >
+                          <Trash2 className="size-3" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="flex gap-4">
+                    <label className="tap-pulse flex w-fit cursor-pointer items-center gap-2 rounded-full bg-secondary px-5 py-2.5 text-xs font-bold text-secondary-foreground">
+                      <Upload className="size-3.5" /> تغيير الصورة الرئيسية
+                      <input
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        onChange={(e) => {
+                          const f = e.target.files?.[0];
+                          if (f) readImageFile(f, (url) => setProduct(p.id, { image: url }));
+                        }}
+                      />
+                    </label>
+
+                    <label className="tap-pulse flex w-fit cursor-pointer items-center gap-2 rounded-full border border-border bg-background px-5 py-2.5 text-xs font-bold text-foreground hover:border-primary/50">
+                      <Plus className="size-3.5" /> إضافة صورة للمعرض
+                      <input
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        onChange={(e) => {
+                          const f = e.target.files?.[0];
+                          if (f) readImageFile(f, (url) => setProduct(p.id, { images: [...(p.images || []), url] }));
+                        }}
+                      />
+                    </label>
+                  </div>
                 </div>
               </div>
             )}

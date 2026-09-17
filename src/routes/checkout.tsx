@@ -42,7 +42,7 @@ function CheckoutPage() {
     `طلب جديد من ${state.info.storeName}`,
     "",
     ...cartDetails.map(
-      (d) => `• ${d.product.name} — قياس ${d.line.size} × ${d.line.qty} = ${formatAED(d.total)}`,
+      (d) => `• ${d.product.name} — قياس ${d.line.size}${d.line.color ? ` — لون ${d.line.color}` : ''} × ${d.line.qty} = ${formatAED(d.total)}`,
     ),
     "",
     `التوصيل: ${shipping === 0 ? "مجاني" : formatAED(shipping)}`,
@@ -195,11 +195,22 @@ function CheckoutPage() {
           <h2 className="font-display text-lg font-bold">ملخص</h2>
           <ul className="mt-4 space-y-2 text-sm">
             {cartDetails.map((d) => (
-              <li key={`${d.line.productId}-${d.line.size}`} className="flex justify-between gap-3">
-                <span className="text-muted-foreground">
-                  {d.product.name} × {d.line.qty}
-                </span>
-                <span className="font-bold">{formatAED(d.total)}</span>
+              <li key={`${d.line.productId}-${d.line.size}-${d.line.color || 'none'}`} className="flex flex-col gap-1">
+                <div className="flex justify-between gap-3">
+                  <span className="text-foreground font-semibold">
+                    {d.product.name} × {d.line.qty}
+                  </span>
+                  <span className="font-bold">{formatAED(d.total)}</span>
+                </div>
+                <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                  <span>القياس: {d.line.size}</span>
+                  {d.line.color && (
+                    <>
+                      <span>·</span>
+                      <span>اللون: {d.line.color}</span>
+                    </>
+                  )}
+                </div>
               </li>
             ))}
           </ul>

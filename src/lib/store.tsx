@@ -29,11 +29,18 @@ export type Product = {
   price: number;
   oldPrice?: number | undefined;
   image: string;
+  images?: string[];
   categoryId: string;
   description: string;
   stock: number;
   sizes: string[];
   styles: string[];
+  fabric?: string;
+  material?: string;
+  color?: string;
+  colors?: string[];
+  discount?: number;
+  featured?: boolean;
   hoverImage?: string;
   reviews?: Review[];
 };
@@ -80,6 +87,7 @@ export type Branding = {
 export type CartLine = {
   productId: string;
   size: string;
+  color?: string;
   qty: number;
 };
 
@@ -164,11 +172,15 @@ const defaultState: StoreState = {
       tag: "جديد",
       price: 1290,
       image: abaya1,
+      images: [abaya1, abaya2, abaya3, abaya4],
       categoryId: "abayas",
       description: "عباية حرير بقَصّة مستقيمة وأكمام واسعة، مثالية للسهرات الهادئة.",
       stock: 12,
       sizes: ["S", "M", "L", "XL"],
       styles: ["رسمي", "كلاسيك"],
+      fabric: "حرير",
+      color: "أسود",
+      colors: ["أسود", "كحلي", "عنابي"],
       hoverImage: abaya2,
       reviews: [
         {
@@ -187,11 +199,15 @@ const defaultState: StoreState = {
       price: 1450,
       oldPrice: 1750,
       image: abaya2,
+      images: [abaya2, abaya3, abaya1],
       categoryId: "evening",
       description: "شيفون مطرز بخرز لؤلؤي يعكس الضوء بلمسة لافندر.",
       stock: 7,
       sizes: ["S", "M", "L"],
       styles: ["مطرز", "سهرة"],
+      fabric: "شيفون",
+      color: "لافندر",
+      colors: ["لافندر", "عاجي", "زيتي"],
       hoverImage: abaya3,
       reviews: [
         {
@@ -216,11 +232,15 @@ const defaultState: StoreState = {
       tag: "حصري",
       price: 1690,
       image: abaya3,
+      images: [abaya3, abaya1, abaya4],
       categoryId: "jalabiyas",
       description: "جلابية بتطريز ذهبي يدوي على قماش عاجي فاخر.",
       stock: 5,
       sizes: ["M", "L", "XL"],
       styles: ["مطرز", "رسمي"],
+      fabric: "قطن مصري",
+      color: "عاجي",
+      colors: ["عاجي", "بيج"],
       hoverImage: abaya1,
       reviews: [
         {
@@ -238,13 +258,46 @@ const defaultState: StoreState = {
       tag: "لمسة مسائية",
       price: 1550,
       image: abaya4,
+      images: [abaya4, abaya3, abaya2],
       categoryId: "abayas",
       description: "ساتان بنفسجي بانسيابية عالية وحزام مخفي.",
       stock: 9,
       sizes: ["S", "M", "L", "XL"],
       styles: ["سهرة", "كاجوال"],
+      fabric: "ساتان",
+      color: "بنفسجي",
       hoverImage: abaya3,
     },
+    ...Array.from({ length: 26 }).map((_, i) => {
+      const cats = ["abayas", "jalabiyas", "evening", "shawls"];
+      const fabrics = ["حرير", "شيفون", "كريب", "مخمل", "ساتان", "دانتيل", "قطن"];
+      const colors = ["أسود", "لافندر", "عاجي", "بنفسجي", "كحلي", "عنابي", "زيتي", "بيج"];
+      const imgs = [abaya1, abaya2, abaya3, abaya4];
+      const categoryId = cats[i % 4] ?? "abayas";
+      const img1 = imgs[i % 4] ?? abaya1;
+      const img2 = imgs[(i + 1) % 4] ?? abaya2;
+      const img3 = imgs[(i + 2) % 4] ?? abaya3;
+      
+      const prefix = categoryId === "abayas" ? "عباية" : categoryId === "jalabiyas" ? "جلابية" : categoryId === "evening" ? "سواريه" : "شيلة";
+      
+      return {
+        id: `mock_p${i + 5}`,
+        name: `${prefix} ${colors[i % colors.length]} ${fabrics[i % fabrics.length]}`,
+        tag: i % 3 === 0 ? "جديد" : i % 5 === 0 ? "الأكثر مبيعاً" : "موصى به",
+        price: 600 + (i * 45),
+        oldPrice: i % 4 === 0 ? 600 + (i * 45) + 300 : undefined,
+        image: img1,
+        images: [img1, img2, img3],
+        categoryId: categoryId,
+        description: `قطعة فاخرة وأنيقة مصنوعة من ${fabrics[i % fabrics.length]}، تتميز بتفاصيل مذهلة تناسب إطلالتك في كل الأوقات.`,
+        stock: i % 7 === 0 ? 0 : 5 + (i % 10),
+        sizes: ["S", "M", "L", "XL"],
+        styles: categoryId === "abayas" || categoryId === "jalabiyas" ? ["كلاسيك", "رسمي"] : ["سهرة", "لامع"],
+        fabric: fabrics[i % fabrics.length],
+        color: colors[i % colors.length],
+        hoverImage: img2,
+      };
+    }),
   ],
   offers: [
     {
@@ -302,15 +355,15 @@ const defaultState: StoreState = {
   },
 };
 
-const KEY = "dubai-abaya-store-v5";
+const KEY = "dubai-abaya-store-v8";
 
 type StoreContextValue = {
   state: StoreState;
   update: (patch: Partial<StoreState>) => void;
   reset: () => void;
-  addToCart: (productId: string, size?: string, qty?: number) => void;
-  setQty: (productId: string, size: string, qty: number) => void;
-  removeLine: (productId: string, size: string) => void;
+  addToCart: (productId: string, size?: string, color?: string, qty?: number) => void;
+  setQty: (productId: string, size: string, color: string | undefined, qty: number) => void;
+  removeLine: (productId: string, size: string, color?: string) => void;
   clearCart: () => void;
   cartDetails: { line: CartLine; product: Product; total: number }[];
   cartCount: number;
@@ -373,25 +426,25 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       state,
       update,
       reset: () => setState(defaultState),
-      addToCart: (productId, size = "M", qty = 1) =>
+      addToCart: (productId, size = "M", color, qty = 1) =>
         setState((s) => {
-          const found = s.cart.find((l) => l.productId === productId && l.size === size);
+          const found = s.cart.find((l) => l.productId === productId && l.size === size && l.color === color);
           const cart = found
             ? s.cart.map((l) => (l === found ? { ...l, qty: l.qty + qty } : l))
-            : [...s.cart, { productId, size, qty }];
+            : [...s.cart, { productId, size, color, qty }];
           return { ...s, cart };
         }),
-      setQty: (productId, size, qty) =>
+      setQty: (productId, size, color, qty) =>
         setState((s) => ({
           ...s,
           cart: s.cart
-            .map((l) => (l.productId === productId && l.size === size ? { ...l, qty } : l))
+            .map((l) => (l.productId === productId && l.size === size && l.color === color ? { ...l, qty } : l))
             .filter((l) => l.qty > 0),
         })),
-      removeLine: (productId, size) =>
+      removeLine: (productId, size, color) =>
         setState((s) => ({
           ...s,
-          cart: s.cart.filter((l) => !(l.productId === productId && l.size === size)),
+          cart: s.cart.filter((l) => !(l.productId === productId && l.size === size && l.color === color)),
         })),
       clearCart: () => setState((s) => ({ ...s, cart: [] })),
       cartDetails,
