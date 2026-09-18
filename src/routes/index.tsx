@@ -49,7 +49,7 @@ function Index() {
       <SiteHeader />
 
       <main id="top">
-        <section className="mx-auto flex max-w-6xl flex-col items-center gap-8 px-5 pt-32 pb-20 md:flex-row md:justify-between md:pt-44 md:pb-28">
+        <section className="mx-auto flex max-w-6xl flex-col-reverse items-center gap-4 px-5 pt-24 pb-12 md:flex-row md:justify-between md:pt-32 md:pb-16">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
@@ -59,24 +59,24 @@ function Index() {
             <span className="glass inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-[0.7rem] tracking-[0.2em] text-accent-foreground">
               مجموعة ٢٠٢٦ الجديدة
             </span>
-            <h1 className="font-display mt-6 text-4xl leading-[1.15] font-black sm:text-6xl">
+            <h1 className="font-display mt-3 text-4xl leading-[1.15] font-black sm:text-6xl">
               فخامة تتنفس
               <span className="text-gradient block">حرير دبي</span>
             </h1>
-            <p className="mt-5 text-base leading-relaxed text-muted-foreground sm:text-lg">
+            <p className="mt-3 text-base leading-relaxed text-muted-foreground sm:text-lg">
               معرض رقمي فني للعبايات والجلابيات. قصّات نقية، ألوان لافندر هادئة، وتفاصيل
               مصنوعة يدوياً لتمنحك حضوراً لا يُنسى.
             </p>
-            <div className="mt-8 flex flex-wrap justify-center gap-3 md:justify-start">
+            <div className="mt-4 flex flex-wrap justify-center gap-2 md:justify-start">
               <Link
                 to="/products"
-                className="tap-pulse rounded-full bg-primary px-7 py-3.5 text-sm font-bold text-primary-foreground shadow-soft"
+                className="tap-pulse rounded-full bg-primary px-4 py-1.5 text-[11px] font-bold text-primary-foreground shadow-soft"
               >
                 اكتشفي المجموعة
               </Link>
               <Link
                 to="/offers"
-                className="tap-pulse glass rounded-full px-7 py-3.5 text-sm font-bold text-accent-foreground"
+                className="tap-pulse glass rounded-full px-4 py-1.5 text-[11px] font-bold text-accent-foreground"
               >
                 العروض الحالية
               </Link>
@@ -94,7 +94,7 @@ function Index() {
         </section>
 
         {/* Categories strip */}
-        <section className="mx-auto max-w-6xl px-5 py-10">
+        <section className="mx-auto max-w-6xl px-5 py-6">
           <div className="flex flex-col gap-3 sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-4">
             {state.categories.map((c, i) => (
               <motion.div
@@ -123,13 +123,13 @@ function Index() {
         </section>
 
         {/* Collection */}
-        <section id="collection" className="mx-auto max-w-6xl px-5 py-16">
+        <section id="collection" className="mx-auto max-w-6xl px-5 py-10">
           <motion.header
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7, ease }}
-            className="mb-10 text-center"
+            className="mb-6 text-center"
           >
             <p className="text-xs tracking-[0.4em] text-primary uppercase">Collection</p>
             <h2 className="font-display mt-3 text-3xl font-extrabold sm:text-4xl">
@@ -145,7 +145,7 @@ function Index() {
         </section>
 
         {/* Craft */}
-        <section id="craft" className="mx-auto max-w-6xl px-5 py-20">
+        <section id="craft" className="mx-auto max-w-6xl px-5 py-10">
           <div className="glass-strong grid gap-8 rounded-4xl p-8 sm:p-12 md:grid-cols-3">
             {[
               { t: "أقمشة نادرة", d: "حرير وشيفون مختار من أرقى دور النسيج." },
@@ -173,13 +173,13 @@ function Index() {
           const allReviews = state.products.flatMap(p => p.reviews || []).slice(0, 6);
           if (allReviews.length === 0) return null;
           return (
-            <section className="mx-auto max-w-6xl px-5 py-20">
+            <section className="mx-auto max-w-6xl px-5 py-10">
               <motion.header
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.7, ease }}
-                className="mb-10 text-center"
+                className="mb-6 text-center"
               >
                 <p className="text-xs tracking-[0.4em] text-primary uppercase">Testimonials</p>
                 <h2 className="font-display mt-3 text-3xl font-extrabold sm:text-4xl">
@@ -214,7 +214,7 @@ function Index() {
         })()}
 
         {/* Story */}
-        <section id="story" className="mx-auto max-w-3xl px-5 py-20 text-center">
+        <section id="story" className="mx-auto max-w-3xl px-5 py-10 text-center">
           <motion.blockquote
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}

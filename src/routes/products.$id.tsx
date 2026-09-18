@@ -119,7 +119,7 @@ function ProductPage() {
     <div dir="rtl" className="relative min-h-screen overflow-x-hidden bg-background">
       <SiteHeader />
       
-      <main className="pb-24 pt-24 sm:pt-32">
+      <main className="pb-6 pt-16 sm:pt-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
           {/* Breadcrumbs */}
           <nav aria-label="breadcrumb" className="mb-8 flex items-center gap-1 text-sm text-muted-foreground">
@@ -131,7 +131,7 @@ function ProductPage() {
           </nav>
 
           {/* Main Grid: Desktop Side-by-Side, Mobile Stacked */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6">
             
             {/* LEFT SIDE (Gallery) */}
             <div className="relative">
@@ -185,7 +185,7 @@ function ProductPage() {
             </div>
 
             {/* RIGHT SIDE (Info) */}
-            <div className="px-5 pt-8 sm:pt-0 pb-12">
+            <div className="px-5 pt-2 sm:pt-0 pb-2">
               <div className="flex items-center gap-3">
                 <span className="inline-block rounded-full bg-secondary px-3 py-1 text-xs font-bold tracking-widest text-secondary-foreground">
                   {product.tag || "مميز"}
@@ -195,11 +195,11 @@ function ProductPage() {
                 )}
               </div>
 
-              <h1 className="font-display mt-4 text-3xl font-bold sm:text-4xl lg:text-5xl text-foreground">
+              <h1 className="font-display mt-1 text-3xl font-bold sm:text-4xl lg:text-5xl text-foreground">
                 {product.name}
               </h1>
 
-              <div className="mt-6 flex items-center gap-4 text-2xl font-extrabold sm:text-3xl">
+              <div className="mt-1 flex items-center gap-4 text-2xl font-extrabold sm:text-3xl">
                 <span className="text-gradient">{formatAED(product.price)}</span>
                 {product.oldPrice && (
                   <span className="text-lg text-muted-foreground line-through decoration-destructive/50">
@@ -208,20 +208,20 @@ function ProductPage() {
                 )}
               </div>
 
-              <p className="mt-6 text-sm leading-relaxed text-muted-foreground sm:text-base">
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground sm:text-base">
                 {product.description}
               </p>
               
-              <div className="mt-10 border-t border-border/50 pt-8">
-                <h3 className="mb-6 font-bold text-foreground flex items-center gap-2">
+              <div className="mt-3 border-t border-border/50 pt-2">
+                <h3 className="mb-2 font-bold text-foreground flex items-center gap-2">
                   <Heart className="size-4 text-primary" />
                   خيارات وتحديد الطلب
                 </h3>
 
                 {/* Colors */}
                 {product.colors && product.colors.length > 0 && (
-                  <div className="mb-6">
-                    <p className="text-sm font-bold text-foreground mb-3">اللون: <span className="text-muted-foreground font-normal">{color}</span></p>
+                  <div className="mb-2">
+                    <p className="text-sm font-bold text-foreground mb-1">اللون: <span className="text-muted-foreground font-normal">{color}</span></p>
                     <div className="flex flex-wrap gap-2">
                       {product.colors.map(c => (
                         <button
@@ -242,8 +242,8 @@ function ProductPage() {
 
                 {/* Sizes */}
                 {product.sizes && product.sizes.length > 0 && (
-                  <div className="mb-6">
-                    <div className="flex items-center justify-between mb-3">
+                  <div className="mb-2">
+                    <div className="flex items-center justify-between mb-1">
                       <p className="text-sm font-bold text-foreground">المقاس:</p>
                       <button onClick={() => setIsSizeGuideOpen(true)} className="text-xs text-primary underline tap-pulse">دليل المقاسات</button>
                     </div>
@@ -275,7 +275,7 @@ function ProductPage() {
                 )}
 
                 {/* Quantity & Add to Cart */}
-                <div className="mb-10 flex flex-col gap-2 mt-8">
+                <div className="mb-3 flex flex-col gap-2 mt-2">
                   <label className="text-sm font-medium text-muted-foreground">الكمية المطلوبة</label>
                   <div className="flex flex-col sm:flex-row gap-4">
                     <div className="flex items-center justify-between rounded-xl border border-border px-4 py-3 sm:w-32 bg-background shadow-sm">
@@ -311,10 +311,10 @@ function ProductPage() {
                     { id: "care", title: "العناية بالمنتج", content: "يفضل الغسيل الجاف (Dry Clean) أو الغسيل اليدوي بماء بارد وشامبو عبايات مخصص للحفاظ على جودة القماش والتطريز." },
                     { id: "policy", title: "سياسة الاستبدال", content: "الاستبدال متاح خلال 7 أيام من تاريخ الاستلام بشرط عدم استخدام القطعة ووجود جميع المرفقات." }
                   ].map(tab => (
-                    <div key={tab.id} className="py-2">
+                    <div key={tab.id} className="py-0">
                       <button 
                         onClick={() => setActiveTab(activeTab === tab.id ? null : tab.id)}
-                        className="flex w-full items-center justify-between py-3 text-sm font-bold text-foreground"
+                        className="flex w-full items-center justify-between py-1.5 text-sm font-bold text-foreground"
                       >
                         {tab.title}
                         <ChevronDown className={`size-4 transition-transform ${activeTab === tab.id ? "rotate-180" : ""}`} />
@@ -342,9 +342,9 @@ function ProductPage() {
 
         {/* Reviews Section */}
         {product.reviews && product.reviews.length > 0 && (
-          <div className="mx-auto max-w-7xl px-5 mt-16 sm:mt-24">
-            <div className="rounded-4xl bg-secondary/30 p-8 sm:p-12">
-              <h2 className="font-display text-2xl font-bold mb-8">آراء العملاء</h2>
+          <div className="mx-auto max-w-7xl px-5 mt-4 sm:mt-6">
+            <div className="rounded-4xl bg-secondary/30 p-4 sm:p-6">
+              <h2 className="font-display text-xl font-bold mb-2">آراء العملاء</h2>
               <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 {product.reviews.map((r) => (
                   <div key={r.id} className="glass rounded-3xl p-6">
@@ -369,12 +369,12 @@ function ProductPage() {
 
         {/* Related Products */}
         {similarProducts.length > 0 && (
-          <div className="mx-auto max-w-7xl px-5 mt-24">
+          <div className="mx-auto max-w-7xl px-5 mt-6">
             <motion.header
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="mb-10 text-center sm:text-right"
+              className="mb-2 text-center sm:text-right"
             >
               <h2 className="font-display text-3xl font-bold">قد يعجبك أيضاً</h2>
               <p className="mt-3 text-sm text-muted-foreground">استكشفي تشكيلة تتماشى مع ذوقك</p>
@@ -389,12 +389,12 @@ function ProductPage() {
 
         {/* Recently Viewed */}
         {recentlyViewedIds.length > 0 && (
-          <div className="mx-auto max-w-7xl px-5 mt-24 border-t border-border/40 pt-16">
+          <div className="mx-auto max-w-7xl px-5 mt-6 border-t border-border/40 pt-4">
             <motion.header
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="mb-10 text-center sm:text-right"
+              className="mb-2 text-center sm:text-right"
             >
               <h2 className="font-display text-2xl font-bold">شوهدت مؤخراً</h2>
             </motion.header>

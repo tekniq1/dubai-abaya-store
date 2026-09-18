@@ -28,15 +28,8 @@ export function SiteHeader() {
         </div>
       )}
 
-      <nav className="glass mx-auto mt-2 flex max-w-6xl items-center justify-between rounded-full px-4 py-3 sm:px-6">
-        <Link to="/" className="tap-pulse flex items-center gap-2.5">
-          <img src={state.branding.mark} alt="شعار المتجر" className="size-8 object-contain" />
-          <span className="font-display text-sm font-extrabold tracking-[0.22em] uppercase">
-            {state.info.storeName}
-          </span>
-        </Link>
-
-        <div className="hidden items-center gap-6 lg:flex">
+      <nav className="glass flex w-full items-center justify-between px-4 py-3 sm:px-6">
+        <div className="hidden flex-1 items-center gap-6 lg:flex">
           {links.map((l) => (
             <Link
               key={l.to}
@@ -48,8 +41,15 @@ export function SiteHeader() {
             </Link>
           ))}
         </div>
+        <div className="flex-1 lg:hidden"></div>
 
-        <div className="flex items-center gap-1.5">
+        <div className="flex flex-1 justify-center">
+          <Link to="/" className="tap-pulse flex items-center justify-center">
+            <img src={state.branding.mark} alt="شعار المتجر" className="h-12 w-auto object-contain sm:h-14" />
+          </Link>
+        </div>
+
+        <div className="flex flex-1 items-center justify-end gap-1.5">
           <Link
             to="/products"
             aria-label="بحث"

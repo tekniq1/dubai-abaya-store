@@ -326,7 +326,7 @@ const defaultState: StoreState = {
   ],
   info: {
     storeName: "Dubai Abaya",
-    whatsapp: "971500000000",
+    whatsapp: "784494470",
     instagram: "dubai.abaya",
     email: "care@dubaiabaya.ae",
     address: "دبي، الإمارات العربية المتحدة",
@@ -355,7 +355,7 @@ const defaultState: StoreState = {
   },
 };
 
-const KEY = "dubai-abaya-store-v8";
+const KEY = "dubai-abaya-store-v9";
 
 type StoreContextValue = {
   state: StoreState;

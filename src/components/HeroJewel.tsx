@@ -33,7 +33,7 @@ export function HeroJewel() {
           rotateY: { type: "spring", stiffness: 100, damping: 20 },
         }}
         style={{ transformStyle: "preserve-3d" }}
-        className="pointer-events-none absolute left-1/2 top-1/2 h-[70%] w-[70%] -translate-x-1/2 -translate-y-1/2 object-contain drop-shadow-[0_12px_24px_oklch(0.6_0.12_300_/_0.2)]"
+        className="pointer-events-none absolute left-1/2 top-1/2 h-[90%] w-[90%] -translate-x-1/2 -translate-y-1/2 object-contain drop-shadow-[0_12px_24px_oklch(0.6_0.12_300_/_0.2)]"
       />
     </div>
   );
